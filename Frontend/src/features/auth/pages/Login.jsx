@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router'
 const Login = () => {
  
 
-    const [email, setEmail] = useState("");
+    const [identifier, setIdentifier] = useState("");
     const [password, setPassword] = useState("");
     const {handleLogin, loading} = useAuth();
     const navigate = useNavigate();
@@ -17,7 +17,7 @@ const Login = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        await handleLogin({email, password});
+        await handleLogin({identifier, password});
         navigate("/");
     }
 
@@ -34,7 +34,8 @@ const Login = () => {
 
                 <form onSubmit={handleSubmit}>
                     <div className="input-group">
-                        <input type="email" id="email" placeholder="Enter your email" onChange={(e) => setEmail(e.target.value)} value={email} />
+                        <label htmlFor="identifier">Username</label>
+                        <input type="text" id="identifier" placeholder="Enter your username/email" onChange={(e) => setIdentifier(e.target.value)} value={identifier} />
                     </div>
                     <div className="input-group">
                         <label htmlFor="password">Password</label>

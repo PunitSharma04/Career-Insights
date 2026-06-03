@@ -54,24 +54,30 @@ async function registerUser(req, res) {
  */
 
 async function loginUser(req, res) {
-    const {email, password } = req.body;
+    const {identifier , password  } = req.body;
 
-    if (!email || !password) {
-        return res.status(400).json({ message: "All fields are required" })
+    if (!password ) {
+        return res.status(400).json({ message: "Password is required" })
     }
 
-    const user = await userModel.findOne({
-        email
-    })
+    if(!identifier){
+        return res.status(400).json({message: "either email or username is required"})
+    }
+
+    const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(identifier);
+
+    const query = isEmail ? {email:identifier} : {username:identifier}
+
+    const user = await userModel.findOne(query)
 
     if (!user) {
-        return res.status(400).json({ message: "Invalid credentials" })
+        return res.status(401).json({ message: "Invalid credentials" })
     }
 
     const isValidUser = await bcrypt.compare(password, user.password)
 
     if (!isValidUser) {
-        return res.status(400).json({ message: "Invalid credentials" })
+        return res.status(401).json({ message: "Invalid credentials" })
     }
 
     const token = jwt.sign(

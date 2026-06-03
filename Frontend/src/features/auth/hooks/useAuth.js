@@ -6,10 +6,10 @@ export const useAuth = () => {
     const context = useContext(AuthContext);
     const { user, setUser, loading, setLoading } = context;
 
-    const handleLogin = async ({ email, password }) => {
+    const handleLogin = async ({ identifier, password }) => {
         setLoading(true);
         try {
-            const data = await login({ email, password });
+            const data = await login({ identifier, password });
             setUser(data.user);
         } catch (error) {
             console.error("Login failed:", error);
