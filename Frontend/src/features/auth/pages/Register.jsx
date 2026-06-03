@@ -16,9 +16,7 @@ const Register = () => {
     }
   return (
     <main>
-            <div className="about-project">
-                <p className='info'> Analyze resumes, match job descriptions, identify skill gaps and ATS-optimized resumes.</p>
-            </div>
+            
             <div className="form-container">
                 <h2>Register</h2>
 

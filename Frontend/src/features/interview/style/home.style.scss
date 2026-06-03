@@ -1,18 +1,19 @@
+@use "sass:color";
 // ── Variables ────────────────────────────────────────────────────────────────
-$bg-page:        #0d1117;
-$bg-card:        #02030466;
-$bg-panel:       #1c2230;
-$bg-input:       #111318;
-$border-color:   #2a3348;
-$text-primary:   #e6edf3;
-$text-muted:     #7d8590;
-$accent:         #ff2d78;
-$accent-alt:     #ff6b9d;
+$bg-page: #0d1117;
+$bg-card: #02030466;
+$bg-panel: #1c2230;
+$bg-input: #111318;
+$border-color: #2a3348;
+$text-primary: #e6edf3;
+$text-muted: #7d8590;
+$accent: #ff2d78;
+$accent-alt: #ff6b9d;
 $badge-required: #ff2d78;
-$badge-best:     #ff2d78;
-$info-bg:        #01050d;
-$info-border:    #2d4a7a;
-$font-stack:     system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+$badge-best: #ff2d78;
+$info-bg: #01050d;
+$info-border: #2d4a7a;
+$font-stack: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 
 // ── Page Shell ───────────────────────────────────────────────────────────────
 .home-page {
@@ -301,7 +302,9 @@ $font-stack:     system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Robot
     align-items: center;
     gap: 0.5rem;
     padding: 0.75rem 1.5rem;
-    background: linear-gradient(135deg, $accent 0%, darken($accent, 10%) 100%);
+    background: linear-gradient(135deg,
+            $accent 0%,
+            color.adjust($accent, $lightness: -10%) 100%);
     color: #fff;
     font-size: 0.9rem;
     font-weight: 600;
@@ -320,19 +323,19 @@ $font-stack:     system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Robot
     }
 }
 
-.recent-reports{
+.recent-reports {
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
     width: 100%;
     max-width: 900px;
 
-    .reports-list{
+    .reports-list {
         display: flex;
         gap: 0.75rem;
         flex-wrap: wrap;
 
-        .report-item{
+        .report-item {
             background-color: $bg-card;
             border: 1px solid $border-color;
             border-radius: 0.5rem;
@@ -369,5 +372,139 @@ $font-stack:     system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Robot
         &:hover {
             color: $text-primary;
         }
+    }
+}
+
+@media (max-width: 1100px) {
+
+    .home-page {
+        padding: 2rem 1rem;
+    }
+
+    .interview-card {
+
+        &__body {
+            flex-direction: column;
+            min-height: auto;
+        }
+
+        &__footer {
+            flex-direction: column;
+            gap: 1rem;
+            text-align: center;
+        }
+    }
+
+    .panel-divider {
+        display: none;
+    }
+
+    .panel {
+        padding: 1.25rem;
+    }
+
+    .recent-reports {
+
+        .reports-list {
+
+            .report-item {
+                min-width: 250px;
+            }
+        }
+    }
+}
+
+@media (max-width: 500px) {
+
+    .home-page {
+        padding: 1rem 0.75rem;
+        gap: 1.5rem;
+    }
+
+    .page-header {
+
+        h1 {
+            font-size: 1.8rem;
+        }
+
+        p {
+            font-size: 0.85rem;
+        }
+    }
+
+    .interview-card {
+
+        border-radius: 0.75rem;
+
+        &__body {
+            flex-direction: column;
+        }
+
+        &__footer {
+            padding: 1rem;
+        }
+    }
+
+    .panel {
+        padding: 1rem;
+
+        &__header {
+            flex-wrap: wrap;
+        }
+
+        &__textarea {
+            min-height: 150px;
+            font-size: 0.85rem;
+
+            &--short {
+                height: 80px;
+            }
+        }
+
+        &--left {
+
+            .char-counter {
+                right: 1rem;
+                bottom: 1.5rem;
+            }
+        }
+    }
+
+    .dropzone {
+        padding: 1rem;
+
+        &__title {
+            font-size: 0.8rem;
+        }
+
+        &__subtitle {
+            font-size: 0.7rem;
+        }
+    }
+
+    .info-box {
+        padding: 0.75rem;
+    }
+
+    .generate-btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .recent-reports {
+
+        .reports-list {
+            flex-direction: column;
+
+            .report-item {
+                width: 100%;
+            }
+        }
+    }
+
+    .page-footer {
+        flex-direction: column;
+        align-items: center;
+        gap: 0.75rem;
     }
 }

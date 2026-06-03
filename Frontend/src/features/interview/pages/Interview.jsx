@@ -210,7 +210,7 @@ const Interview = () => {
               </button>
             ))}
           </div>
-          <button className="button primary-button">
+          <button  className="download-resume-btn button primary-button">
             <svg
               height={"0.8rem"}
               style={{ marginRight: "0.8rem" }}

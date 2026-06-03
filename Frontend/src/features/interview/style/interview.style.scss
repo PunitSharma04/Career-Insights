@@ -1,8 +1,9 @@
+@use "sass:color";
 // ── Shared Variables (mirrors home.scss theme) ────────────────────────────────
 $bg-page: #0d1117;
-$bg-card: #161b22;
-$bg-panel: #1c2230;
-$bg-input: #1e2535;
+$bg-card: #02030466;
+$bg-panel: #111318;
+$bg-input: #111318;
 $border-color: #2a3348;
 $text-primary: #e6edf3;
 $text-muted: #7d8590;
@@ -110,6 +111,10 @@ $severity-low: #3fb950;
         align-items: center;
         flex-shrink: 0;
     }
+
+    .download-resume-btn{
+        width:200px;
+    }
 }
 
 // ── Center Content ────────────────────────────────────────────────────────────
@@ -168,7 +173,7 @@ $severity-low: #3fb950;
     transition: border-color 0.2s;
 
     &:hover {
-        border-color: lighten($border-color, 8%);
+        border-color: color.adjust($border-color, $lightness: 8%);
     }
 
     &__header {
@@ -230,7 +235,7 @@ $severity-low: #3fb950;
         p {
             margin: 0;
             font-size: 0.835rem;
-            color: lighten($text-muted, 15%);
+            color: color.adjust($text-muted, $lightness: 15%);
             line-height: 1.6;
         }
     }
@@ -334,7 +339,7 @@ $severity-low: #3fb950;
             align-items: flex-start;
             gap: 0.5rem;
             font-size: 0.845rem;
-            color: lighten($text-muted, 12%);
+            color: color.adjust($text-muted, $lightness: 12%);
             line-height: 1.5;
         }
     }
@@ -471,5 +476,158 @@ $severity-low: #3fb950;
         color: $severity-low;
         background-color: rgba($severity-low, 0.1);
         border-color: rgba($severity-low, 0.25);
+    }
+}
+
+@media (max-width: 1100px) {
+
+
+
+    .interview-page {
+        padding: 1rem;
+    }
+
+    .interview-layout {
+        flex-wrap: wrap;
+    }
+
+    .interview-nav {
+        width: 100%;
+        flex-direction: row;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 1rem;
+        border-bottom: 1px solid $border-color;
+
+        &__label {
+            display: none;
+        }
+
+        &__item {
+            width: auto;
+        }
+    }
+
+    .interview-divider:first-of-type {
+        display: none;
+    }
+
+    .interview-content {
+        width: calc(100% - 240px);
+        max-height: none;
+        min-height: 600px;
+    }
+
+    .interview-sidebar {
+        width: 240px;
+        border-left: 1px solid $border-color;
+    }
+}
+
+@media (max-width: 768px) {
+    .download-resume-btn {
+        width: 200px;
+    }
+
+    .interview-page {
+        padding: 0.75rem;
+    }
+
+    .interview-layout {
+        flex-direction: column;
+    }
+
+    .interview-divider {
+        display: none;
+    }
+
+    .interview-nav {
+        width: 100%;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        padding: 1rem;
+
+        &__item {
+            flex: 1;
+            min-width: 140px;
+            justify-content: center;
+        }
+    }
+
+    .interview-content {
+        width: 100%;
+        padding: 1rem;
+        max-height: none;
+    }
+
+    .interview-sidebar {
+        width: 100%;
+        padding: 1rem;
+        border-top: 1px solid $border-color;
+    }
+
+    .match-score {
+        align-items: center;
+    }
+
+    .skill-gaps__list {
+        justify-content: center;
+    }
+
+    .content-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+}
+
+@media (max-width: 500px) {
+
+    .interview-page {
+        padding: 0.5rem;
+    }
+
+    .interview-content {
+        padding: 0.75rem;
+    }
+
+    .q-card {
+
+        &__header {
+            padding: 0.75rem;
+        }
+
+        &__question {
+            font-size: 0.85rem;
+        }
+
+        &__body {
+            padding: 0.75rem;
+        }
+    }
+
+    .roadmap-day {
+        padding-left: 2.5rem;
+
+        &::before {
+            left: 12px;
+        }
+    }
+
+    .roadmap-list::before {
+        left: 18px;
+    }
+
+    .skill-tag {
+        font-size: 0.7rem;
+    }
+
+    .match-score__ring {
+        width: 70px;
+        height: 70px;
+    }
+
+    .match-score__value {
+        font-size: 1.2rem;
     }
 }
