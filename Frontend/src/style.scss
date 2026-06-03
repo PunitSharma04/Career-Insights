@@ -8,7 +8,17 @@
 body,html,#root{
     height: 100%;
     width: 100%;
-    background-color: #1e1e1e;
+    background-color: #020617;
     color: #fff;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.info{
+     box-shadow:1px 1px 5px #5c4b4b;
+     padding: 1rem;
+     font-size: small;
+}
+
+.home-info{
+    width:800px;
 }

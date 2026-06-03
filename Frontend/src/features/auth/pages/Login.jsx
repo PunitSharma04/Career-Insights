@@ -26,8 +26,7 @@ const Login = () => {
     return (
         <main>
             <div className="about-project">
-                <h2>Welcome to AI Resume Analyzer</h2>
-                <p> Analyze resumes, match job descriptions, identify skill gaps, and ATS-optimized resumes.</p>
+                <p className='info'> Analyze resumes, match job descriptions, identify skill gaps, and ATS-optimized resumes.</p>
             </div>
             <div className="form-container">
                 <h2>Login</h2>
