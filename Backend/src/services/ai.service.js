@@ -2,6 +2,7 @@ const { GoogleGenAI } = require("@google/genai");
 const { z } = require("zod");
 const { zodToJsonSchema } = require("zod-to-json-schema")
 const puppeteer = require("puppeteer")
+const fs = require("fs");
 
 
 const interviewReportSchema = z.object({
@@ -53,40 +54,60 @@ async function generateInterviewReport({ selfDescription, jobDescription, resume
     return (JSON.parse(response.text))
 }
 
+
+
 async function generatePdfFromHtml(htmlContent) {
     console.log("Starting PDF generation...");
+    console.log("HTML Length:", htmlContent?.length);
 
     const executablePath = await puppeteer.executablePath();
-    console.log("Puppeteer executable:", executablePath);
 
-    const browser = await puppeteer.launch({
-        executablePath,
-        headless: true,
-        args: [
-            "--no-sandbox",
-            "--disable-setuid-sandbox"
-        ]
-    });
+    console.log("Executable Path:", executablePath);
+    console.log("File Exists:", fs.existsSync(executablePath));
 
-    const page = await browser.newPage();
+    try {
+        const browser = await puppeteer.launch({
+            headless: true,
+            args: [
+                "--no-sandbox",
+                "--disable-setuid-sandbox",
+            ],
+        });
 
-    await page.setContent(htmlContent, {
-        waitUntil: "networkidle0"
-    });
+        console.log("Chrome launched successfully");
 
-    const pdfBuffer = await page.pdf({
-        format: "A4",
-        margin: {
-            top: "10mm",
-            bottom: "20mm",
-            left: "15mm",
-            right: "15mm"
-        }
-    });
+        const page = await browser.newPage();
 
-    await browser.close();
+        console.log("New page created");
 
-    return pdfBuffer;
+        await page.setContent(htmlContent, {
+            waitUntil: "networkidle0",
+        });
+
+        console.log("HTML loaded into page");
+
+        const pdfBuffer = await page.pdf({
+            format: "A4",
+            margin: {
+                top: "10mm",
+                bottom: "20mm",
+                left: "15mm",
+                right: "15mm",
+            },
+        });
+
+        console.log("PDF generated successfully");
+        console.log("PDF Size:", pdfBuffer.length);
+
+        await browser.close();
+
+        console.log("Browser closed");
+
+        return pdfBuffer;
+    } catch (error) {
+        console.error("PDF Generation Error:", error);
+        throw error;
+    }
 }
 
 async function generateResumePdf({ resume, selfDescription, jobDescription }) {
