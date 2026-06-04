@@ -61,6 +61,9 @@ export const getAllInterviewReports = async () => {
     return response.data;
   } catch (err) {
     console.log(err);
+    return {
+      reports:[],
+    }
   }
 };
 

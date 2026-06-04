@@ -50,10 +50,11 @@ export const useInterview = () => {
     try {
       setLoading(true);
       const data = await getAllInterviewReports();
-      setReports(data.reports);
-      return data.reports;
+      setReports(data?.reports || []);
+      return data?.reports || [];
     } catch (error) {
       console.error("Error while fetching reports", error);
+      setReports([])
     } finally {
       setLoading(false);
     }
