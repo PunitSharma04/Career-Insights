@@ -55,7 +55,6 @@ async function generateInterviewReport({ selfDescription, jobDescription, resume
 
 
 
-const puppeteer = require("puppeteer");
 
 async function generatePdfFromHtml(htmlContent) {
     const browser = await puppeteer.launch({
