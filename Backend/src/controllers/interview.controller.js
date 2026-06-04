@@ -115,7 +115,7 @@ async function getAllInterviewReportOfUserController(req, res) {
       .select("title createdAt matchScore");
 
     if (reports.length === 0) {
-      return res.status(404).json({
+      return res.status(200).json({
         message: "No interview reports found",
         reports: [],
       });
