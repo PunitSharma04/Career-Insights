@@ -11,6 +11,9 @@ const Register = () => {
     const[password, setPassword] = useState("");
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if(!username || !password || !email){
+            alert('All fields are required')
+        }
         await handleRegister({username, email, password});
         navigate("/");
     }

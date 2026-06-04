@@ -17,6 +17,9 @@ const Login = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if(!password || !identifier){
+            alert('All fields are required')
+        }
         await handleLogin({identifier, password});
         navigate("/");
     }

@@ -1,7 +1,39 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef,useEffect  } from 'react'
 import "../style/home.style.scss"
+import { useInterview } from '../hooks/useInterview'
+import { useNavigate } from 'react-router'
+import { useAuth } from '../../auth/hooks/useAuth'
+
 
 const Home = () => {
+
+  const {loading , handleGenerateInterviewReport , reports , handleGetAllInterviewReport} = useInterview();
+  const {handleLogout} = useAuth();
+  const [selfDescription , setSelfDescription] = useState("");
+  const [jobDescription , setJobDescription] = useState("");
+  
+  const inputResumeRef = useRef();
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+  handleGetAllInterviewReport();
+}, []);
+
+
+  const  handleGenerateReportBtn = async () => {
+    if(!jobDescription){
+      alert('Job description is required')
+    }
+    const resumeFile = inputResumeRef.current.files[0]
+  if(!selfDescription && !resumeFile){
+    alert('Either self description or resume is required')
+  }
+    const data = await handleGenerateInterviewReport({jobDescription , selfDescription , resumeFile})
+    navigate(`/interview/${data._id}`)
+  }
+
+  
 
   return (
     <div className='home-page'>
@@ -26,6 +58,8 @@ const Home = () => {
               <span className='badge badge--required'>Required</span>
             </div>
             <textarea
+
+              onChange={(e)=>{setJobDescription(e.target.value)}}
 
               className='panel__textarea'
               placeholder={`Paste the full job description here...\ne.g. 'Senior Frontend Engineer at Google requires proficiency in React, TypeScript, and large-scale system design...'`}
@@ -58,7 +92,7 @@ const Home = () => {
                 </span>
                 <p className='dropzone__title'>Click to upload or drag &amp; drop</p>
                 <p className='dropzone__subtitle'>PDF (Max 3MB)</p>
-                <input hidden type='file' id='resume' name='resume' accept='.pdf,.docx' />
+                <input ref={inputResumeRef} hidden type='file' id='resume' name='resume' accept='.pdf,.docx' />
               </label>
             </div>
 
@@ -69,7 +103,7 @@ const Home = () => {
             <div className='self-description'>
               <label className='section-label' htmlFor='selfDescription'>Quick Self-Description</label>
               <textarea
-
+              onChange={(e)=>{setSelfDescription(e.target.value)}}
                 id='selfDescription'
                 name='selfDescription'
                 className='panel__textarea panel__textarea--short'
@@ -89,15 +123,33 @@ const Home = () => {
 
         {/* Card Footer */}
         <div className='interview-card__footer'>
-          <span className='footer-info'>AI-Powered Strategy Generation &bull; Approx 30s</span>
+          
           <button
-
+            onClick={handleGenerateReportBtn}
             className='generate-btn'>
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z" /></svg>
-            Generate My Interview Strategy
+            {loading ? "Generating..." : "Generate your interview plan"}
           </button>
         </div>
       </div>
+
+      {/* Recent Reports List */}
+            {reports.length > 0 && (
+                <section className='recent-reports'>
+                    <h2>My Recent Interview Plans</h2>
+                    <ul className='reports-list'>
+                        {reports.map(report => (
+                            <li key={report._id} className='report-item' onClick={() => navigate(`/interview/${report._id}`)}>
+                                <h3>{report.title || 'Untitled Position'}</h3>
+                                <p className='report-meta'>Generated on {new Date(report.createdAt).toLocaleDateString()}</p>
+                                <p className={`match-score ${report.matchScore >= 80 ? 'score--high' : report.matchScore >= 60 ? 'score--mid' : 'score--low'}`}>Match Score: {report.matchScore}%</p>
+                            </li>
+                        ))}
+                    </ul>
+                </section>
+            )}
+
+            <button onClick={()=>handleLogout()} className='logout button primary-button'>Logout</button>
 
 
 

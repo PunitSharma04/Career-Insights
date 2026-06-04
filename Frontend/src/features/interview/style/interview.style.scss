@@ -112,6 +112,7 @@ $severity-low: #3fb950;
         flex-shrink: 0;
     }
 
+
     .download-resume-btn{
         width:200px;
     }
@@ -479,9 +480,30 @@ $severity-low: #3fb950;
     }
 }
 
+.interview-nav__label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: $text-muted;
+  padding: 0 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.home-link {
+  color: $text-muted;
+  text-decoration: none;
+
+  &:hover {
+    color: $text-primary;
+  }
+}
+
 @media (max-width: 1100px) {
-
-
 
     .interview-page {
         padding: 1rem;
@@ -499,12 +521,20 @@ $severity-low: #3fb950;
         padding: 1rem;
         border-bottom: 1px solid $border-color;
 
-        &__label {
-            display: none;
-        }
+        
+
+        
 
         &__item {
             width: auto;
+        }
+
+
+
+        .nav-button{
+            display: flex;
+            flex-direction: column;
+            gap: 5rem;
         }
     }
 

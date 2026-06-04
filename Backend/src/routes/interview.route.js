@@ -13,4 +13,28 @@ const interviewRouter = Router();
 
 interviewRouter.post("/",authMiddleware,upload.single("resume"),interviewController.generateInterviewReportController)
 
+/**
+ * @route GET /api/interview/report/:interviewId
+ * @description get report by report id
+ * @access private
+ */
+
+interviewRouter.get("/report/:interviewId" , authMiddleware , interviewController.getInterviewReportByIdController)
+
+
+/**
+ * @route GET /api/interview/
+ * @description get all reports of logged in user
+ * @access private
+ */
+
+interviewRouter.get("/",authMiddleware,interviewController.getAllInterviewReportOfUserController)
+
+/**
+ * @route GET /api/interview/resume/pdf
+ * @description generate resume pdf on the basis of user self description, resume content and job description.
+ * @access private
+ */
+interviewRouter.get("/resume/pdf/:interviewReportId", authMiddleware, interviewController.generateResumePdfController)
+
 module.exports = interviewRouter

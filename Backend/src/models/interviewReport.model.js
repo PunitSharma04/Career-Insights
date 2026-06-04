@@ -116,13 +116,13 @@ const interviewReportSchema = new mongoose.Schema(
     {
         selfDescription: {
             type: String,
-            required: [true, "self description is required"],
         },
         resume: {
             type: String,
         },
         jobDescription: {
             type: String,
+            required:[true, "Job Description is required"]
         },
         matchScore: {
             type: Number,
@@ -136,6 +136,10 @@ const interviewReportSchema = new mongoose.Schema(
         user:{
             type:mongoose.Schema.Types.ObjectId,
             ref:"users"
+        },
+        title:{
+            type:String,
+            required:[true,"Job title is required"]
         }
     },
     { timestamps: true },
