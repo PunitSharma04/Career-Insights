@@ -119,9 +119,7 @@ async function generateResumePdf({ resume, selfDescription, jobDescription }) {
 
     const jsonContent = JSON.parse(response.text)
 
-    console.log("Gemini Response Received");
-    console.log("HTML Exists:", !!jsonContent?.html);
-    console.log("HTML Length:", jsonContent?.html?.length);
+
 
     const pdfBuffer = await generatePdfFromHtml(jsonContent.html)
 
