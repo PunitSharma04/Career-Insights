@@ -39,7 +39,12 @@ async function registerUser(req, res) {
         { expiresIn: "1d" },
     )
 
-    res.cookie("token", token)
+    res.cookie("token", token, {
+    httpOnly: true,
+    secure: true,
+    sameSite: "none",
+    maxAge: 24 * 60 * 60 * 1000
+});
 
     res.status(201).json({ message: "User registered successfully", 
         user: { id: user._id, username: user.username, email: user.email } })
@@ -86,7 +91,12 @@ async function loginUser(req, res) {
             username: user.username
         }, process.env.JWT_SECRET, { expiresIn: "1d" })
 
-    res.cookie("token", token)
+    res.cookie("token", token, {
+    httpOnly: true,
+    secure: true,
+    sameSite: "none",
+    maxAge: 24 * 60 * 60 * 1000
+});
 
     res.status(200).json({ message: "User logged in successfully", user: { id: user._id, username: user.username, email: user.email } })
 }
@@ -107,7 +117,11 @@ async function logoutUser(req, res) {
 
     await blacklistModel.create({ blacklistedToken: token })
 
-    res.clearCookie("token")
+    res.clearCookie("token", {
+    httpOnly: true,
+    secure: true,
+    sameSite: "none"
+});
 
     res.status(200).json({ message: "User logged out successfully" })
 }
