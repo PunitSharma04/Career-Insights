@@ -2,7 +2,6 @@ const { GoogleGenAI } = require("@google/genai");
 const { z } = require("zod");
 const { zodToJsonSchema } = require("zod-to-json-schema")
 const puppeteer = require("puppeteer")
-const fs = require("fs");
 
 
 const interviewReportSchema = z.object({
@@ -56,35 +55,23 @@ async function generateInterviewReport({ selfDescription, jobDescription, resume
 
 
 
+const puppeteer = require("puppeteer");
+
 async function generatePdfFromHtml(htmlContent) {
-    console.log("Starting PDF generation...");
-    console.log("HTML Length:", htmlContent?.length);
-
-    const executablePath = await puppeteer.executablePath();
-
-    console.log("Executable Path:", executablePath);
-    console.log("File Exists:", fs.existsSync(executablePath));
+    const browser = await puppeteer.launch({
+        headless: true,
+        args: [
+            "--no-sandbox",
+            "--disable-setuid-sandbox",
+        ],
+    });
 
     try {
-        const browser = await puppeteer.launch({
-            headless: true,
-            args: [
-                "--no-sandbox",
-                "--disable-setuid-sandbox",
-            ],
-        });
-
-        console.log("Chrome launched successfully");
-
         const page = await browser.newPage();
-
-        console.log("New page created");
 
         await page.setContent(htmlContent, {
             waitUntil: "networkidle0",
         });
-
-        console.log("HTML loaded into page");
 
         const pdfBuffer = await page.pdf({
             format: "A4",
@@ -96,17 +83,9 @@ async function generatePdfFromHtml(htmlContent) {
             },
         });
 
-        console.log("PDF generated successfully");
-        console.log("PDF Size:", pdfBuffer.length);
-
-        await browser.close();
-
-        console.log("Browser closed");
-
         return pdfBuffer;
-    } catch (error) {
-        console.error("PDF Generation Error:", error);
-        throw error;
+    } finally {
+        await browser.close();
     }
 }
 
