@@ -8,9 +8,9 @@ Career Insights leverages Generative AI to identify skill gaps, generate technic
 
 ## 🌐 Live Demo
 
-Frontend: https://your-frontend-link.netlify.app
+Frontend: https://careerinsights.netlify.app
 
-Backend API: https://your-backend-link.onrender.com
+Backend API: https://career-insights-vijb.onrender.com
 
 ---
 
