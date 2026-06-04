@@ -13,6 +13,10 @@ app.use(cors({
     credentials: true,
 }));
 
+app.get("/", (req, res) => {
+    res.send("Career Insights API is running 🚀");
+});
+
 /**
  * @Router /api/auth
  * @description This is the auth route which handles all the authentication related routes like register and login
@@ -28,5 +32,7 @@ app.use("/api/auth",authRouter)
 
 const interviewRouter = require("./routes/interview.route")
 app.use("/api/interview",interviewRouter)
+
+
 
 module.exports=app;
