@@ -56,56 +56,36 @@ async function generateInterviewReport({ selfDescription, jobDescription, resume
 async function generatePdfFromHtml(htmlContent) {
     console.log("Starting PDF generation...");
     console.log("HTML Length:", htmlContent?.length);
+    console.log("Puppeteer executable:", puppeteer.executablePath());
 
-    const chromePath =
-        "/opt/render/.cache/puppeteer/chrome/linux-149.0.7827.22/chrome-linux64/chrome";
+    const browser = await puppeteer.launch({
+        executablePath: puppeteer.executablePath(),
+        headless: true,
+        args: [
+            "--no-sandbox",
+            "--disable-setuid-sandbox"
+        ]
+    });
 
-    console.log("Chrome Path:", chromePath);
+    const page = await browser.newPage();
 
-    try {
-        const browser = await puppeteer.launch({
-            executablePath: chromePath,
-            headless: true,
-            args: [
-                "--no-sandbox",
-                "--disable-setuid-sandbox",
-            ],
-        });
+    await page.setContent(htmlContent, {
+        waitUntil: "networkidle0"
+    });
 
-        console.log("Chrome launched successfully");
+    const pdfBuffer = await page.pdf({
+        format: "A4",
+        margin: {
+            top: "10mm",
+            bottom: "20mm",
+            left: "15mm",
+            right: "15mm"
+        }
+    });
 
-        const page = await browser.newPage();
+    await browser.close();
 
-        console.log("New page created");
-
-        await page.setContent(htmlContent, {
-            waitUntil: "networkidle0",
-        });
-
-        console.log("HTML loaded into page");
-
-        const pdfBuffer = await page.pdf({
-            format: "A4",
-            margin: {
-                top: "10mm",
-                bottom: "20mm",
-                left: "15mm",
-                right: "15mm",
-            },
-        });
-
-        console.log("PDF generated successfully");
-        console.log("PDF Size:", pdfBuffer.length);
-
-        await browser.close();
-
-        console.log("Browser closed");
-
-        return pdfBuffer;
-    } catch (error) {
-        console.error("PDF Generation Error:", error);
-        throw error;
-    }
+    return pdfBuffer;
 }
 
 async function generateResumePdf({ resume, selfDescription, jobDescription }) {
